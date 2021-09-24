@@ -68,10 +68,10 @@ int main() {
         cout << "Try Frame: ";
 
         if (hittedFrame > frame) {
-            cout << floor(testedFrame - ((hittedFrame - (frame)) * 0.875)) << endl << endl;
+            cout << int(testedFrame - ((hittedFrame - frame) * 0.875)) << endl << endl;
         }
         else {
-            cout << floor(testedFrame + (((frame) - hittedFrame) * 0.875)) << endl << endl;
+            cout << int(testedFrame + ((frame - hittedFrame) * 0.875)) << endl << endl;
         }
     }
 
