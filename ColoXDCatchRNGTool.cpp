@@ -17,24 +17,26 @@ uint16_t getHighSeed(uint32_t targetSeed) {
 
 int main() {
     uint32_t startingSeed, finalStartingSeed;
-    unsigned long frame = 0, hittedFrame = 0, testedFrame = 0;
-    int counter = 0, catchRate = 0;
+    unsigned long startingFrame = 0, frame = 0, hittedFrame = 0, testedFrame = 0;
+    int counter, catchRate = 0;
     bool found = false;
 
     cout << "Insert the Starting Seed: ";
     scanf("%X", &startingSeed);
 
     cout << "Insert the Starting Frame: ";
-    cin >> frame;
+    cin >> startingFrame;
 
     cout << "Insert the Catch Rate Value: ";
     cin >> catchRate;
 
-    frame += 150;
+    startingFrame += 150;
 
-    for (int i = 0; i < frame; i++) {
+    for (int i = 0; i < startingFrame; i++) {
         startingSeed = XDRNG(startingSeed);
     }
+
+    frame = startingFrame;
 
     for (unsigned long int j = 0; j < 4294967295 && found == false; j++) {
         counter = 0;
@@ -45,12 +47,12 @@ int main() {
             frame++;
         }
 
-        if (counter == 10) {
+        if (counter == 10 && frame - 178 > startingFrame) {
             finalStartingSeed = startingSeed;
             for (int i = 0; i < 6; i++) {
                 startingSeed = XDRNGR(startingSeed);
             }
-            printf("Seed: %08X - %08X | Frame: %lu - %lu\nTry Frame: %lu\n\n", startingSeed, finalStartingSeed, frame - 6, frame - 1, frame - 3 - 175);
+            printf("Seed: %08X - %08X | Frame: %lu - %lu\nTry Frame: %lu\n\n", startingSeed, finalStartingSeed, frame - 6, frame - 1, frame - 178);
             found = true;
         }
         else {
