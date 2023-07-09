@@ -16,64 +16,64 @@ uint16_t getHighSeed(uint32_t targetSeed) {
 }
 
 int main() {
-    uint32_t startingSeed, finalStartingSeed;
-    unsigned long startingFrame = 0, frame = 0, hittedFrame = 0, testedFrame = 0;
+    uint32_t initSeed, finalInitSeed;
+    unsigned long startingAdvances = 0, advances = 0, hittedAdvances = 0, testedAdvances = 0;
     int counter, catchRate = 0;
     bool found = false;
 
-    cout << "Insert the Starting Seed: ";
-    scanf("%X", &startingSeed);
+    cout << "Insert the Initial Seed: ";
+    scanf("%X", &initSeed);
 
-    cout << "Insert the Starting Frame: ";
-    cin >> startingFrame;
+    cout << "Insert the Starting Advances: ";
+    cin >> startingAdvances;
 
     cout << "Insert the Catch Rate Value: ";
     cin >> catchRate;
 
-    startingFrame += 150;
+    startingAdvances += 150;
 
-    for (int i = 0; i < startingFrame; i++) {
-        startingSeed = XDRNG(startingSeed);
+    for (int i = 0; i < startingAdvances; i++) {
+        initSeed = XDRNG(initSeed);
     }
 
-    frame = startingFrame;
+    advances = startingAdvances;
 
     for (unsigned long int j = 0; j < 4294967295 && found == false; j++) {
         counter = 0;
 
-        while (getHighSeed(startingSeed) < catchRate && counter < 10) {
+        while (getHighSeed(initSeed) < catchRate && counter < 10) {
             counter++;
-            startingSeed = XDRNG(startingSeed);
-            frame++;
+            initSeed = XDRNG(initSeed);
+            advances++;
         }
 
-        if (counter == 10 && frame - 178 > startingFrame) {
-            finalStartingSeed = startingSeed;
+        if (counter == 10 && advances - 178 > startingAdvances) {
+            finalInitSeed = initSeed;
             for (int i = 0; i < 6; i++) {
-                startingSeed = XDRNGR(startingSeed);
+                initSeed = XDRNGR(initSeed);
             }
-            printf("Seed: %08X - %08X | Frame: %lu - %lu\nTry Frame: %lu\n\n", startingSeed, finalStartingSeed, frame - 6, frame - 1, frame - 178);
+            printf("Seed: %08X - %08X | Advances: %lu - %lu\nTry Advances: %lu\n\n", initSeed, finalInitSeed, advances - 6, advances - 1, advances - 178);
             found = true;
         }
         else {
-            startingSeed = XDRNG(startingSeed);
-            frame++;
+            initSeed = XDRNG(initSeed);
+            advances++;
         }
     }
 
     while (true) {
-        cout << "Tested frame: ";
-        cin >> testedFrame;
-        cout << "Hitted frame: ";
-        cin >> hittedFrame;
+        cout << "Tested Advances: ";
+        cin >> testedAdvances;
+        cout << "Hitted Advances: ";
+        cin >> hittedAdvances;
 
-        cout << "Try Frame: ";
+        cout << "Try Advances: ";
 
-        if (hittedFrame > frame) {
-            cout << int(testedFrame - ((hittedFrame - frame) * 0.875)) << endl << endl;
+        if (hittedAdvances > advances) {
+            cout << int(testedAdvances - ((hittedAdvances - advances) * 0.875)) << endl << endl;
         }
         else {
-            cout << int(testedFrame + ((frame - hittedFrame) * 0.875)) << endl << endl;
+            cout << int(testedAdvances + ((advances - hittedAdvances) * 0.875)) << endl << endl;
         }
     }
 
